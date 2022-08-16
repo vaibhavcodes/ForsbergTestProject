@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import pymysql
+import pyodbc
 
 app = Flask(__name__)
 
@@ -9,18 +9,20 @@ class Database:
         #user = "root"
         #password = "root"
         #db = "testdb"
-        host = "forsbergserver.database.windows.net"
-        user = "vaibhav"
+        server = "forsbergserver.database.windows.net"
+        username = "vaibhav"
         password = "password23@"
-        db = "forsbergDB"
-        self.con = pymysql.connect(host=host, user=user, password=password, db=db, cursorclass=pymysql.cursors.DictCursor)
-        self.cur = self.con.cursor()
+        database = "forsbergDB"
+        port = 1433
+        driver = '{ODBC Driver 13 for SQL Server}'
+        conn = pyodbc.connect('DRIVER=' + driver + ';SERVER=tcp:' + server + ';PORT=port;DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
+        self.cursor = conn.cursor()
 
     def list_products(self, table_name, columns_reqd):
         #query = "select " + columns_reqd + " from " + table_name
-        query = "select top 5 " + columns_reqd + " from " + "forsbergDB.[dbo]." + table_name
-        self.cur.execute(query)
-        result = self.cur.fetchall()
+        query = "select top 2 " + columns_reqd + " from " + "[dbo]." + table_name
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
         return result
 
 @app.route('/home')
@@ -43,7 +45,8 @@ def trackstat():
 
 
 # Press the green button in the gutter to run the script.
-#if __name__ == '__main__':
-#    print_hi('PyCharm')
+if __name__ == '__main__':
+    print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#az webapp config set -g ForsbergRG -n forsbergwebapp --startup-file startup.txt
