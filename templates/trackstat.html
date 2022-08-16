@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trackstat Data</title>
+    <style>
+        table{
+            border-collapse:collapse;
+            width:100%;
+        }
+
+        td,th{
+           border:1px solid;
+           text-align:left;
+           padding:5px;
+           }
+
+        tr:nth-child(even){
+           background-color:#dddddd;
+         }
+ </style>
+
+
+</head>
+<body>
+
+<h1> This is page for Trackstat data</h1>
+
+    {% if result %}
+    <table id="" style="width:100%">
+        <tbody>
+        <tr>
+            <th>Sync_Message</th>
+            <th>Port</th>
+            <th>TimeStatus</th>
+            <th>Week</th>
+            <th>Seconds</th>
+            <th>C_No</th>
+        </tr>
+
+    {% for row in result %}
+        <tr>
+            <td>{{row.Sync_Message}}</td>
+            <td>{{row.Port}}</td>
+            <td>{{row.TimeStatus}}</td>
+            <td>{{row.Week}}</td>
+            <td>{{row.Seconds}}</td>
+            <td>{{row.C_No}}</td>
+        </tr>
+
+    {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
+</body>
+</html>
